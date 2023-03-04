@@ -7,7 +7,6 @@
     </div>
   </div>
 
-
   <div v-else>
     <h2>1 - ¿ESPERA EN LA SALA?</h2>
     <!-- seleccionamos si espera o no -->
