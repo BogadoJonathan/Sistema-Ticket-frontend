@@ -3,16 +3,13 @@
   <div v-if="ticketStore.ticketFinalizado">
     <h1>NUMERO: {{ticketStore.lastNumber}}</h1>
     <div class="cardMatafuego" v-for="(idMatafuego, i) in ticketStore.listMatafuegoSelect" :key="i">
-      <div style="display:flex;">
-        <div>
-          <p>Tipo: {{matafuegoStore.listMatafuegosDelCliente.find(element => element.id == idMatafuego).tipo}}.</p>
-        </div>
-      </div>
+      <button class="btn btn-warning">volver al home</button>
     </div>
   </div>
 
 
   <div v-else>
+    <h2>1 - ¿ESPERA EN LA SALA?</h2>
     <!-- seleccionamos si espera o no -->
     <div style="display:flex; justify-content:center;">
       
@@ -23,7 +20,10 @@
   
     <div v-if="ticketStore.flagEspera != null">
       <!-- BUSCADOR DEL CLIENTE -->
+      <hr>
+      <h2>2 - BUSCA y SELECCIONA AL CLIENTE</h2>
       <BuscadorCliente v-if="clientesStore.flagBuscaCliente"/>
+      
       <!-- MUESTRA MATAFUEGOS DE CLIENTE UNA VEZ SELECCIONADO -->
       <div v-if="!clientesStore.flagBuscaCliente">
         <hr>
@@ -32,6 +32,7 @@
           <button  class="volverAElegir btn btn-dark" @click="volverABuscar()"><i class="bi bi-search"></i> re-buscar</button>
         </div>
         <hr>
+        <h2>3 - SELECCIONA LOS O EL MATAFUEGO</h2>
           <SelectMatafuegos/>
       </div>
     </div>

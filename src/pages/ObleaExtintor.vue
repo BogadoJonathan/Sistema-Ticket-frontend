@@ -2,8 +2,8 @@
   <div id="impresion">
     <p class="p1">{{$route.query.numeroMatafuego}}</p>
     <p class="p2">{{$route.query.anioFabricacion}}</p>
-    <p class="p3">{{$route.query.mesPH}}</p>
-    <p class="p4">{{$route.query.anioPH}}</p>
+    <p class="p3">{{$route.query.mes}}</p>
+    <p class="p4">{{getAnioPH()}}</p>
     <p class="p5">{{$route.query.capacidad}}</p>
     <p class="p6">{{$route.query.nameTipo}}</p>
 
@@ -11,8 +11,8 @@
     <p class="p2a">028</p>
     <p class="p3a">028</p>
     <p class="p4a">{{$route.query.numeroMatafuego}}</p>
-    <p class="p5a">{{$route.query.mesPH}}</p>
-    <p class="p6a">{{$route.query.anioPH}}</p>
+    <p class="p5a">{{$route.query.mes}}</p>
+    <p class="p6a">{{getAnioPH()}}</p>
 
     <p class="p1b">{{$route.query.mes}}</p>
     <p class="p2b">{{$route.query.year}}</p>
@@ -62,6 +62,11 @@ export default {
 
     return {matafuegoStore,clientesStore}
   },
+  methods:{
+    getAnioPH(){
+      return this.$route.query.anioPH.slice(-2)
+    }
+  },
   mounted() {
     window.print();
   },
@@ -110,10 +115,11 @@ export default {
   margin-top: 2.9cm;
   margin-left: 6.9cm;
 }
+
 #impresion .p6 {
   margin-top: 2.9cm;
   margin-left: 7.9cm;
-  width: 100px;
+  width: 5cm;
 }
 
 #impresion .p1a {

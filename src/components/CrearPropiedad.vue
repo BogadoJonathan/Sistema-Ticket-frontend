@@ -42,7 +42,7 @@ export default {
     return {
       newPropiedad: {
         idCliente: 0,
-        typePropiedad: "",
+        typePropiedad: "", //2 es domicilio - 1 auto
         data: "",
       },
     };
@@ -50,6 +50,9 @@ export default {
   methods: {
     addPropiedad(){
       this.newPropiedad.idCliente = this.idCliente
+      if(this.newPropiedad.typePropiedad == '1'){
+        this.newPropiedad.data = this.newPropiedad.data.toUpperCase()
+      }
       this.clientesStore.postRequestPropiedad(this.newPropiedad)
 
       this.clientesStore.flagFormPropiedad=false

@@ -1,5 +1,5 @@
 <template>
-
+    <ModelTicket v-if="isModalOpen" :conTicket="true" :ticketSelect="ticketSeleccionado" @cierre="isModalOpen=false"/>
   <div class="formTicket">
     <h3 v-if="error">no se encontro el ticket</h3>
     <div class="col-12">
@@ -7,7 +7,8 @@
         <div class="input-group-text">Numero:</div>
         <input type="text" class="form-control" v-model="numero" />
         <button
-            class="btn btn-secondary"
+            v-if="numero"
+            class="btn btn-secondary ponerAtras"
             @click="requestGetTicker"
           >
             buscar
@@ -20,22 +21,37 @@
 </template>
 
 <script>
+import ModelTicket from "@/components/ModelTicket.vue"
 import axios from "axios";
 
 export default {
-  components: {},
+  components: {ModelTicket},
   data() {
     return {
       numero: null,
       error: false,
+      ticketSeleccionado:null,
+      isModalOpen:false,
     };
   },
   methods: {
     requestGetTicker(){
-        axios.get('tickets/'+this.numero).then(response => {
-            console.log(response.data)
+        let params = {
+            number:this.numero
+        }
+        axios.get('tickets/',{params}).then(response => {
             console.log("get ticket ✔");
-            this.error= false
+            this.ticketSeleccionado=response.data
+            if(this.ticketSeleccionado.length==0){
+                this.error = true
+            }
+            else{
+                this.ticketSeleccionado = this.ticketSeleccionado[0]
+                this.error= false
+                this.numero=null
+                this.isModalOpen=true
+            }
+            
           })
           .catch(errror => {
             console.log(errror)
@@ -53,4 +69,5 @@ export default {
   margin: auto;
   margin-top: 10px;
 }
+
 </style>

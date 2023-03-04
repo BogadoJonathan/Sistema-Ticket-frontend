@@ -17,6 +17,7 @@ export const useMatafuegoStore = defineStore('matafuegos', {
             this.listMatafuegos.push(newMatafuego)
         },
         matafuegosDelCliente(id){
+            console.log(id)
             const lista_a_mostrar = [];
             let cantidad = 0
             for (let matafuego of this.listMatafuegos){
@@ -26,7 +27,7 @@ export const useMatafuegoStore = defineStore('matafuegos', {
                 }
             }
             this.cantidad = cantidad
-            console.log('eeeyy aca llegue ee')
+            console.log(lista_a_mostrar)
             this.listMatafuegosDelCliente = lista_a_mostrar
         },
         async getRequest(idCliente){
@@ -43,11 +44,8 @@ export const useMatafuegoStore = defineStore('matafuegos', {
         postRequest(data){ 
             //post matafuegos
             axios.post(this.slugApi,data).then(response => {
-                this.listMatafuegos.push(response.data) 
+                // this.listMatafuegos.push(response.data) 
                 this.listMatafuegosDelCliente.push(response.data)
-                console.log("aca abajo____")
-                console.log(Dict.from(data))
-                console.log("aca arriba___")
                 console.log("Add matafuego ✔")
             })
             .catch(errror => {
@@ -66,7 +64,7 @@ export const useMatafuegoStore = defineStore('matafuegos', {
                 'year':matafuego.year,
                 'idPropiedad':matafuego.idPropiedad
             }
-            axios.put(this.slugApi+matafuego.id+'/',data).then().catch(errror => {            console.log(errror)
+            axios.put(this.slugApi+matafuego.id+'/',data).then().catch(errror => {console.log(errror.response)
             })
             this.getRequest() 
         },

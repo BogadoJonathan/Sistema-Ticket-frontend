@@ -14,22 +14,24 @@ export const useClientesStore = defineStore('clientes', {
             propiedadesDelCliente:[],
             list_propiedades:[],
             list_clientes: [],
-            dataOneCliente:null
+            dataOneCliente:null,
+            propiedadSeleccionada:null
         }
     },
     actions: {
         searchUser(query) {
             const q = query.toLowerCase();
             if (q.length > 2) {
-                const lista_clientes = [];
-                for (let cliente of this.list_clientes) {
-                    let razonSocial = cliente.razonSocial.toLowerCase();
-                    let dni = cliente.dni;
-                    if (razonSocial.indexOf(q) != -1 || dni.indexOf(q) != -1) {
-                        lista_clientes.push(cliente);
-                    }
-                }
-                this.clientesPorQuery = lista_clientes;
+
+                let lista = this.getClientesForQuery(q)
+                // const lista_clientes = [];
+                // for (let cliente of this.list_clientes) {
+                //     let razonSocial = cliente.razonSocial.toLowerCase();
+                //     let dni = cliente.dni;
+                //     if (razonSocial.indexOf(q) != -1 || dni.indexOf(q) != -1) {
+                //         lista_clientes.push(cliente);
+                //     }
+                // }
             } else {
                 this.clientesPorQuery = [];
             }
@@ -69,6 +71,17 @@ export const useClientesStore = defineStore('clientes', {
             let elementPropiedad= this.propiedadesDelCliente.find(element => element.id == id)
             return elementPropiedad.typePropiedad
         },
+        getRequestPropiedadPorData(data){
+            axios.get(this.slugApi,{params: data }).then(response => {
+                console.log(response.data)
+                this.clientesPorQuery = []
+                this.getClienteForPropiedad(response.data)
+                console.log("get propiedades ✔");
+            })
+            .catch(errror => {
+                console.log(errror)
+            })
+        },
         getRequestPropiedad(idCliente){
             let params = {
                 idCliente: idCliente,
@@ -77,6 +90,7 @@ export const useClientesStore = defineStore('clientes', {
             axios.get(this.slugApi,{ params }).then(response => {
                 this.list_propiedades = response.data
                 this.propiedadesDelCliente = response.data
+                console.log(response.data)
                 console.log("get propiedades ✔");
             })
             .catch(errror => {
@@ -87,9 +101,9 @@ export const useClientesStore = defineStore('clientes', {
             //post propiedad
             axios.post(this.slugApi,data).then(response => {
                 this.list_propiedades.push(response.data) 
-                this.propiedadesDelCliente.push(response.data)
+                // this.propiedadesDelCliente.push(response.data)
                 console.log("Add propiedad ✔");
-                return response.data.id
+                this.propiedadSeleccionada = response.data.id
             })
             .catch(errror => {
                 console.log(errror.data)
@@ -102,6 +116,15 @@ export const useClientesStore = defineStore('clientes', {
             this.dataOneCliente = req.data
             this.getRequestPropiedad(this.dataOneCliente.id)
         },
+        async getClienteForPropiedad(lista){
+            this.clientesPorQuery = []
+            console.log("lista")
+            for(let propiedad in lista){
+                let data = lista[propiedad]
+                let req = await axios.get(this.slugApiCliente+data.idCliente)
+                this.clientesPorQuery.push(req.data)
+            }
+        },
         getRequestCliente(){
             //get cliente
             axios.get(this.slugApiCliente).then(response => {
@@ -111,6 +134,16 @@ export const useClientesStore = defineStore('clientes', {
             .catch(errror => {
                 console.log(errror)
             })
+        },
+        async getClientesForQuery(query){
+            //get cliente
+            let params = {
+                'query' : query
+            }
+            let req = await axios.get(this.slugApiCliente,{params : params})
+            this.clientesPorQuery = req.data
+            console.log(data)
+            console.log(req.data)
         },
         
         postRequestCliente(data){

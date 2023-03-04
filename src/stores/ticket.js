@@ -62,7 +62,7 @@ export const useTicketStore = defineStore('ticket', {
               console.log(errror)
           })
         },
-         getRequestConfig(){
+        getRequestConfig(){
           //get config
           axios.get(this.slugApiConfig).then(response => {
             console.log('este valor tiene que ser: '+response.data[0]['last_number_ticket'])

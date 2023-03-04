@@ -1,77 +1,12 @@
 <template>
 <div v-if="cargado">
-  <!-- MUESTRA O NO LA LISTA DE MATAFUEGOS SEGUN EL CLIENTE -->
-  <h3 v-if="matafuegoStore.listMatafuegosDelCliente.length ==0" style="color: red">
-    No tiene matafuegos asociados
-  </h3>
-  <!-- <div id="myBtnContainer">
-    <button
-      :class="activo == 'todos' ? 'btn active' : 'btn'"
-      @click="filterSelection('todos')"
-    >
-      todos
-    </button>
-    <button
-      :class="activo == 'vehiculos' ? 'btn active' : 'btn'"
-      @click="filterSelection('vehiculos')"
-    >
-      vehiculos
-    </button>
-    <button
-      :class="activo == 'domicilios' ? 'btn active' : 'btn'"
-      @click="filterSelection('domicilios')"
-    >
-      domicilios
-    </button>
-  </div> -->
-  <div v-if="matafuegoStore.listMatafuegosDelCliente.length!=0" style="display: flex; justify-content: space-evenly; flex-wrap: wrap">
-    <div
-      v-for="(matafuego, i) in matafuegoStore.listMatafuegosDelCliente"
-      :key="i"
-    >
-      <div
-        class="cardMatafuego"
-        style="display: flex"
-      >
-        <div class="image">
-          <img
-            :src="imagenTipo(matafuego.tipo)"
-            alt=""
-          />
-        </div>
-        <div>
-          <p>{{matafuego.numeroMatafuego}}</p>
-          <p>
-            <i class="bi bi-card-heading"></i>&nbsp;
-            {{ getTipo(matafuego.tipo) }}
-          </p>
-          <p>{{ clientesStore.getDataPropiedad(matafuego.idPropiedad) }}</p>
-
-          <button
-            v-if="!ticketStore.listMatafuegoSelect.includes(matafuego.id)"
-            @click="AgregarMatafuego(matafuego)"
-            class="btn btn-danger"
-          >
-            <i class="bi bi-box-arrow-in-up"></i> ingresar
-          </button>
-          <button
-            v-else
-            class="btn btn-secondary"
-            @click="QuitarMatafuego(matafuego.id)"
-          >
-            <i class="bi bi-x-lg"></i> Quitar
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
+  <button v-if="!crearMatafuego" @click="crearMatafuego = !crearMatafuego" class="btn btn-dark">crear matafuego</button>
   <!-- agregar nuevo matafuego -->
-  <div>
+  <div v-if="crearMatafuego">
     <div class="formNewMatafuego row gx-3 gy-2 align-items-center">
       <div class="col-sm-5">
         <div class="input-group">
-          <div class="input-group-text">Selecciona Tipo *</div>
+          <div class="input-group-text">Selecciona Tipo<span style="color:red">&nbsp;*</span></div>
           <select class="form-select" v-model.number="newMatafuego.tipo">
             <option
               v-for="(tipo, i) in matafuegoStore.tiposMatafuegos"
@@ -86,7 +21,7 @@
 
       <div class="col-sm-5">
         <div class="input-group">
-          <div class="input-group-text">Selecciona Capacidad *</div>
+          <div class="input-group-text">Selecciona Capacidad<span style="color:red">&nbsp;*</span></div>
           <select class="form-select" v-model="newMatafuego.capacidad">
             <option
               v-for="(capacidad, i) in capacidades"
@@ -100,8 +35,8 @@
       </div>
       <div class="col-sm-10">
         <div class="input-group">
-          <div class="input-group-text">Asocie matafuego*</div>
-          <select class="form-select" v-model.number="newMatafuego.idPropiedad">
+          <div class="input-group-text">Asocie matafuego<span style="color:red">&nbsp;*</span></div>
+          <select class="form-select" v-model.number="clientesStore.propiedadSeleccionada">
             <option
               v-for="(propiedad, i) in clientesStore.propiedadesDelCliente"
               :key="i"
@@ -160,6 +95,112 @@
     </div>
     <br />
   </div>
+  <!-- MUESTRA O NO LA LISTA DE MATAFUEGOS SEGUN EL CLIENTE -->
+  <h3 v-if="matafuegoStore.listMatafuegosDelCliente.length ==0" style="color: red">
+    No tiene matafuegos asociados
+  </h3>
+  <!-- <div id="myBtnContainer">
+    <button
+      :class="activo == 'todos' ? 'btn active' : 'btn'"
+      @click="filterSelection('todos')"
+    >
+      todos
+    </button>
+    <button
+      :class="activo == 'vehiculos' ? 'btn active' : 'btn'"
+      @click="filterSelection('vehiculos')"
+    >
+      vehiculos
+    </button>
+    <button
+      :class="activo == 'domicilios' ? 'btn active' : 'btn'"
+      @click="filterSelection('domicilios')"
+    >
+      domicilios
+    </button>
+  </div> -->
+  <div v-if="matafuegoStore.listMatafuegosDelCliente.length!=0" style="display: flex; justify-content: space-evenly; flex-wrap: wrap">
+    <!-- <div
+      v-for="(matafuego, i) in matafuegoStore.listMatafuegosDelCliente"
+      :key="i"
+    >
+      <div
+        class="cardMatafuego"
+        style="display: flex"
+      >
+        <div class="image">
+          <img
+            :src="imagenTipo(matafuego.tipo)"
+            alt=""
+          />
+        </div>
+        <div>
+          <p>{{matafuego.numeroMatafuego}}</p>
+          <p>
+            <i class="bi bi-card-heading"></i>&nbsp;
+            {{ getTipo(matafuego.tipo) }}
+          </p>
+          <p>{{ clientesStore.getDataPropiedad(matafuego.idPropiedad) }}</p>
+
+          <button
+            v-if="!ticketStore.listMatafuegoSelect.includes(matafuego.id)"
+            @click="AgregarMatafuego(matafuego)"
+            class="btn btn-danger"
+          >
+            <i class="bi bi-box-arrow-in-up"></i> ingresar
+          </button>
+          <button
+            v-else
+            class="btn btn-secondary"
+            @click="QuitarMatafuego(matafuego.id)"
+          >
+            <i class="bi bi-x-lg"></i> Quitar
+          </button>
+        </div>
+      </div>
+    </div> -->
+
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+            <th scope="col">procesado</th>
+            <th scope="col">N° Matafuego</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Capacidad</th>
+            <th scope="col">Propiedad</th>
+            <th scope="col">vencimiento</th>
+            <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(matafuego, i) in matafuegoStore.listMatafuegosDelCliente" :key="i">
+                <td>{{matafuego.procesado?'✅':'⏳'}}</td>
+                <td>{{matafuego.numeroMatafuego}}</td>
+                <td>{{getTipo(matafuego.tipo)}}</td>
+                <td>{{matafuego.capacidad}}</td>
+                <td>{{clientesStore.getDataPropiedad(matafuego.idPropiedad)}}</td>
+                <td>{{matafuego.mes +'/'+matafuego.year}}</td>
+                <td><button
+                    v-if="!ticketStore.listMatafuegoSelect.includes(matafuego.id)"
+                    @click="AgregarMatafuego(matafuego)"
+                    class="btn btn-danger"
+                  >
+                    Seleccionar
+                  </button>
+                  <button
+                    v-else
+                    class="btn btn-secondary"
+                    @click="QuitarMatafuego(matafuego.id)"
+                  >
+                    <i class="bi bi-x-lg"></i> Quitar
+                  </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+  <br><br>
+  
 
   <button
     class="btn btn-secondary btn-lg"
@@ -197,6 +238,7 @@ export default {
       errors: [],
       propiedadesCliente: [],
       cargado:false,
+      crearMatafuego:false,
       newMatafuego: {
         tipo: "",
         idPropiedad: null,
@@ -205,7 +247,7 @@ export default {
         numeroMatafuego: "",
         anioFabricacion: "",
         mesPH: "",
-        anioPH: "",
+        anioPH: null,
         mes: "",
         year: "",
         idCliente: this.clientesStore.clienteSeleccionado.id,
@@ -216,14 +258,13 @@ export default {
     validarContenidoCargado(e) {
       e.preventDefault();
       this.errors = [];
+      this.newMatafuego.idPropiedad = this.clientesStore.propiedadSeleccionada
       if (
         this.newMatafuego.tipo &&
-        this.newMatafuego.capacidad
+        this.newMatafuego.capacidad &&
+        this.newMatafuego.idPropiedad
       ) {
-        //parseamos tipo
-        //this.newMatafuego.idPropiedad = parseInt(this.newMatafuego.idPropiedad)
         this.newMatafuego.capacidad = parseFloat(this.newMatafuego.capacidad);
-        console.log(this.newMatafuego);
         //agregamos matafuego
         this.matafuegoStore.postRequest(this.newMatafuego);
         //reseteamos el newMatafuego
@@ -247,6 +288,9 @@ export default {
       }
       if (this.newMatafuego.capacidad === "") {
         this.errors.push("la capacidad es obligatorio.");
+      }
+      if (!this.newMatafuego.idPropiedad) {
+        this.errors.push("la propiedad es obligatoria.");
       }
       e.preventDefault();
     },
@@ -304,14 +348,19 @@ export default {
   },
   mounted() {
     this.ticketStore.listMatafuegoSelect = [];
-
-    this.clientesStore.getRequestPropiedad(this.clientesStore.clienteSeleccionado.id)
+    this.clientesStore.propiedadSeleccionada = null
+    // this.clientesStore.getRequestPropiedad(this.clientesStore.clienteSeleccionado.id)
     this.cargado = this.matafuegoStore.getRequest(this.clientesStore.clienteSeleccionado.id)
   },
 };
 </script>
 
 <style scoped>
+table{
+    width: 70%;
+  margin: auto;
+  margin-top: 50px;
+}
 .cardMatafuego {
   margin: 10px;
   padding: 10px;

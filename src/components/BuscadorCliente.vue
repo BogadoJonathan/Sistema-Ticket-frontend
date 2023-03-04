@@ -1,7 +1,7 @@
 <template>
-  <hr />
+  
   <!-- INPUT DEL BUSCADOR -->
-  <div class="input-group input-group-lg buscadorCliente">
+  <div class="input-group  buscadorCliente">
     <span class="input-group-text" id="inputGroup-sizing-lg"
       ><i class="bi bi-search"></i
     ></span>
@@ -14,7 +14,8 @@
       v-model="query"
       @input="clientesStore.searchUser(query)"
     />
-    <button class="btn btn-secondary" @click="crearCliente()">+</button>
+    <button class="btn btn-success btn-buscador" style="z-index:0" @click="crearCliente()">CREAR +</button>
+    <button class="btn btn-secondary btn-buscador" style="z-index:0" @click="buscarPorPatente()">BUSCAR POR PATENTE</button>
   </div>
 
   <!-- form para nuevo cliente -->
@@ -22,7 +23,7 @@
     <div class="col-12">
       <label class="visually-hidden" for="dniInput">XXXXXXXX</label>
       <div class="input-group">
-        <div class="input-group-text">DNI/CUIT</div>
+        <div class="input-group-text">DNI/CUIT<span style="color:red">&nbsp;*</span></div>
         <input type="text" 
         class="form-control" 
         id="dniInput" 
@@ -33,7 +34,7 @@
     <div class="col-12">
       <label class="visually-hidden" for="razonSocialInput">INGRESE TEXTO</label>
       <div class="input-group">
-        <div class="input-group-text">Nombre / Razon Social</div>
+        <div class="input-group-text">Nombre / Razon Social <span style="color:red">&nbsp;*</span></div>
         <input type="text" 
         class="form-control" 
         id="razonSocialInput" 
@@ -96,10 +97,19 @@ export default {
 
   methods: {
     seleccionCliente(cliente) {
+      console.log("esto se ejecuta")
       this.clientesStore.selectCliente(cliente);
       this.clientesStore.flagBuscaCliente = false;
-      this.clientesStore.getPropiedades()
-      this.matafuegoStore.matafuegosDelCliente(this.clientesStore.clienteSeleccionado.id)
+      this.clientesStore.getRequestPropiedad(this.clientesStore.clienteSeleccionado.id)
+      // this.clientesStore.getPropiedades()
+      this.matafuegoStore.getRequest(this.clientesStore.clienteSeleccionado.id)
+    },
+    buscarPorPatente(){
+      let query = this.query.toUpperCase()
+      let data = {
+        'patente':query
+      }
+      this.clientesStore.getRequestPropiedadPorData(data)
     },
     crearCliente() {
       this.clientesStore.resetCliente()
@@ -117,6 +127,12 @@ export default {
       this.formNuevoCliente = false;
     },
   },
+  mounted(){
+    this.clientesStore.selectCliente(null);
+    this.clientesStore.clientesPorQuery = []
+    this.matafuegoStore.matafuegosDelCliente = []
+    this.matafuegoStore.listMatafuegosDelCliente = []
+  }
 };
 </script>
 
