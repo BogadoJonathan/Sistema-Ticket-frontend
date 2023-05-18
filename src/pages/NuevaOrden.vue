@@ -2,9 +2,7 @@
  
   <div v-if="ticketStore.ticketFinalizado">
     <h1>NUMERO: {{ticketStore.lastNumber}}</h1>
-    <div class="cardMatafuego" v-for="(idMatafuego, i) in ticketStore.listMatafuegoSelect" :key="i">
-      <button class="btn btn-warning">volver al home</button>
-    </div>
+    <button class="btn btn-warning" @click="goToHome()">volver al home</button>
   </div>
 
   <div v-else>
@@ -66,6 +64,9 @@ export default {
     };
   },
   methods: {
+    goToHome(){
+      window.location.reload();
+    },
     espera() {
       this.classEspera = 'btn btn-success border border-3'
       this.ticketStore.flagEspera = true;

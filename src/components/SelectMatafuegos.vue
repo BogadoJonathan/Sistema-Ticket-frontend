@@ -66,14 +66,14 @@
               placeholder="XXXXXXX"
               v-model="newMatafuego.numeroMatafuego"
             />
-            <div class="input-group-text">Año fabricacion</div>
+            <!-- <div class="input-group-text">Año fabricacion</div>
             <input
               maxlength="2"
               type="text"
               class="form-control"
               placeholder="XXXX"
               v-model="newMatafuego.anioFabricacion"
-            />
+            /> -->
           </div>
 
 
@@ -204,7 +204,7 @@
 
   <button
     class="btn btn-secondary btn-lg"
-    @click="ticketStore.listMatafuegoSelect.length >= 1? finalizarTicket() : ''"
+    @click="ticketStore.listMatafuegoSelect.length >= 1? finalizarTicket() : alerta('Debe seleccionar al menos un matafuego')"
     style="margin-top:100px"
   >
     CREAR TICKET
@@ -255,6 +255,9 @@ export default {
     };
   },
   methods: {
+    alerta(mensaje) {
+      alert(mensaje);
+    },
     validarContenidoCargado(e) {
       e.preventDefault();
       this.errors = [];
@@ -276,7 +279,7 @@ export default {
           numeroMatafuego: "",
           anioFabricacion: "",
           mesPH: "",
-          anioPH: "",
+          anioPH: null,
           mes: "",
           year: "",
           idCliente: this.clientesStore.clienteSeleccionado.id,
