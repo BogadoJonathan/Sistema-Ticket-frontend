@@ -78,7 +78,8 @@ export default {
   text-align: left;
   float: left;
   position: absolute;
-  margin-top: -10px;
+  margin-top: -50px;
+  margin-left: -10px;
 }
 #oblea {
   margin-top: 10.2cm;
