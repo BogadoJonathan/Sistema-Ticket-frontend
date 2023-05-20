@@ -10,9 +10,9 @@
       </div>
     </div>
 
-    <div class="col-12">
+    <div class="col-12" v-if="newPropiedad.typePropiedad">
       <div class="input-group">
-        <div class="input-group-text">Dato</div>
+        <div class="input-group-text"> {{newPropiedad.typePropiedad==1?'Patente':'direccion'}} </div>
         <input
           type="text"
           class="form-control"

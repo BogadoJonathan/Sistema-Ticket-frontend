@@ -4,7 +4,7 @@
     <h3 v-if="error">no se encontro el ticket</h3>
     <div class="col-12">
       <div class="input-group">
-        <div class="input-group-text">Numero:</div>
+        <div class="input-group-text">Numero de ticket:</div>
         <input type="text" class="form-control" v-model="numero" />
         <button
             v-if="numero"
@@ -68,6 +68,9 @@ export default {
   width: 30%;
   margin: auto;
   margin-top: 10px;
+  margin-bottom: 100px;
+  padding-bottom: 100px;
+  padding-top:100px;
 }
 
 </style>

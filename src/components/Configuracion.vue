@@ -103,7 +103,8 @@ export default {
     return {certificadoStore };
   },
   methods: {
-    guardarDatos(){
+    async guardarDatos(){
+      this.certificadoStore.configuracionLista = false
         let data = {
             'last_number_certificate_blue' : this.numeroCeleste,
             'last_number_certificate_pink' : this.numeroRosa,
@@ -113,12 +114,19 @@ export default {
             'last_serie_certificate_green' : this.serieVerde
         }
 
-        this.certificadoStore.putRequestConfig(data)
+        await this.certificadoStore.putRequestConfig(data)
+        console.log(this.certificadoStore.configuracionLista)
+        if(this.certificadoStore.configuracionLista){
+            alert('configuracion guardada')
+            }
 
 
 
     }
   },
+  created(){
+    this.certificadoStore.configuracionLista = false
+  }
 };
 </script>
 

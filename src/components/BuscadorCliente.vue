@@ -14,8 +14,9 @@
       v-model="query"
       @input="clientesStore.searchUser(query)"
     />
-    <button class="btn btn-success btn-buscador" style="z-index:0" @click="crearCliente()">CREAR +</button>
-    <button class="btn btn-secondary btn-buscador" style="z-index:0" @click="buscarPorPatente()">BUSCAR POR PATENTE</button>
+    <button v-if="query" class="btn btn-secondary btn-buscador" style="z-index:0" @click="buscarPorPatente()">BUSCAR POR PATENTE</button>
+    <button class="btn btn-success btn-buscador" style="z-index:0" @click="crearCliente()">CREAR USUARIO</button>
+    
   </div>
 
   <!-- form para nuevo cliente -->

@@ -4,7 +4,7 @@
     <table class="table table-dark table-striped">
         <thead>
             <tr>
-            <th scope="col">procesado</th>
+            <th scope="col">Estado</th>
             <th scope="col">N° Matafuego</th>
             <th scope="col">Tipo</th>
             <th scope="col">Capacidad</th>
@@ -15,7 +15,8 @@
         </thead>
         <tbody>
             <tr v-for="(matafuego, i) in matafuegoStore.listMatafuegosDelCliente" :key="i">
-                <td>{{matafuego.procesado?'✅':'⏳'}}</td>
+                <td v-if="matafuego.procesado" style="color:green">procesado</td>
+                <td v-else style="color:red">no procesado</td>
                 <td>{{matafuego.numeroMatafuego}}</td>
                 <td>{{getTipo(matafuego.tipo)}}</td>
                 <td>{{matafuego.capacidad}}</td>

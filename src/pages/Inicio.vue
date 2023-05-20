@@ -95,7 +95,7 @@ export default {
       textVolver: `<i class="bi bi-arrow-left"></i> Volver`,
       textPage1: `<i class="bi bi-card-list"></i> Crear Ticket`,
       textPage2: `<i class="bi bi-search"></i>  Buscar por N° de Ticket`,
-      textPage3: `<i class="bi bi-gear-fill"></i>  Configurar`,
+      textPage3: `<i class="bi bi-gear-fill"></i>  Alta Certificado`,
       textPage4: `<i class="bi bi-person-bounding-box"></i>  Buscar Cliente`
     };
   },
@@ -121,7 +121,7 @@ export default {
       if (this.configurar) {
         this.textPage3 = this.textVolver;
       } else {
-        this.textPage3 = `<i class="bi bi-gear-fill"></i>  Configurar`;
+        this.textPage3 = `<i class="bi bi-gear-fill"></i>  Alta Certificado`;
       }
     },
     nuevaOrden() {

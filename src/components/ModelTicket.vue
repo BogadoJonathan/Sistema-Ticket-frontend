@@ -56,7 +56,7 @@
             />
           </div>
 
-          <div id="impresion">
+          <div id="impresion" style="margin-top:1px">
             <p class="p1">
               {{ matafuegoStore.matafuegoAImprimir.numeroMatafuego }}
             </p>
@@ -178,15 +178,15 @@
           <h3>Cliente: {{ clientesStore.dataOneCliente.razonSocial }}</h3>
           <h3>DNI/CUIT: {{ clientesStore.dataOneCliente.dni }}</h3>
 
-          <button @click="cambiarEspera()">cambiar espera</button>
-          <button @click="finalizarTicket()">ticket finalizado</button>
+          <button @click="cambiarEspera()" class="btn btn-dark">cambiar espera</button>
+          <button @click="finalizarTicket()" class="btn btn-dark">ticket finalizado</button>
 
           <table class="table">
             <thead class="thead-dark">
               <tr>
                 <th scope="col">Tipo</th>
                 <th scope="col">capacidad</th>
-                <th scope="col">procesado</th>
+                <th scope="col">estado</th>
                 <th scope="col">certificado</th>
               </tr>
             </thead>
@@ -194,7 +194,8 @@
               <tr v-for="(matafuego, i) in listMatafuegoDeTicket" :key="i">
                 <td>{{ getTipo(matafuego.tipo) }}</td>
                 <td>{{ matafuego.capacidad }}</td>
-                <td>{{ matafuego.procesado ? "✅" : "⏳" }}</td>
+                <td v-if="matafuego.procesado" style="color:green">procesado</td>
+                <td v-else style="color:red">no procesado</td>
                 <td>
                   <button
                     v-if="!matafuego.procesado"
@@ -550,6 +551,7 @@ export default {
   position: absolute;
   z-index: 10;
 }
+
 
 #impresion .p3b2 {
   margin-top: 4.5cm;

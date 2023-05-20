@@ -1,6 +1,6 @@
 <template>
 <div v-if="cargado">
-  <button v-if="!crearMatafuego" @click="crearMatafuego = !crearMatafuego" class="btn btn-dark">crear matafuego</button>
+  <button v-if="!crearMatafuego" @click="crearMatafuego = !crearMatafuego" class="btn btn-dark">dar de alta un matafuego</button>
   <!-- agregar nuevo matafuego -->
   <div v-if="crearMatafuego">
     <div class="formNewMatafuego row gx-3 gy-2 align-items-center">
@@ -89,7 +89,7 @@
         </div>
 
         <button @click="validarContenidoCargado" class="btn btn-dark">
-          Crear matafuego
+          Dar de Alta un matafuego
         </button>
       </div>
     </div>

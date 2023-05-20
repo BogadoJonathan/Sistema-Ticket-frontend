@@ -6,7 +6,8 @@ export const useCertificadoStore = defineStore('certificado', {
       return {
         slugCertificados: 'certificados/',
         slugApiConfig:'config/',
-        numerosCertificados:[]
+        numerosCertificados:[],
+        configuracionLista: false
       }
     },
     actions:{
@@ -19,15 +20,19 @@ export const useCertificadoStore = defineStore('certificado', {
               console.log(errror)
             })
           },
-        putRequestConfig(data){
-            axios.put(this.slugApiConfig+'1/',data).then(response => {
-                console.log("configuracion actualizada ✔");
-                console.log(response.data)
-                this.numerosCertificados = response.data
-            })
-            .catch(errror => {
-                console.log(errror)
-            })
+          async putRequestConfig(data){
+            let req = await axios.put(this.slugApiConfig+'1/',data)
+            
+            if (req.status == 200) {
+              console.log("configuracion actualizada ✔");
+              console.log(req.data)
+              this.numerosCertificados = req.data
+              this.configuracionLista = true
+            }
+            else{
+              console.log("error al actualizar la configuracion")
+            }
+           
         },
         postRequestCertificado(data){
           axios.post(this.slugCertificados,data).then(response => {

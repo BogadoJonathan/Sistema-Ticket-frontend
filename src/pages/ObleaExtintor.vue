@@ -80,6 +80,7 @@ export default {
   position: absolute;
   margin-top: -50px;
   margin-left: -10px;
+  z-index: 0;
 }
 #oblea {
   margin-top: 10.2cm;
